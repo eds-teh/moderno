@@ -1,0 +1,168 @@
+Gulp это набор разных плагинов которые мы подключим и установим
+1.  Галп может превращать любой препроцессор в CSS
+2.  Может минифицировать код на CSS и JS
+3.  Прописание вендерных префиксов
+4.  Объединение всех файлов в один файл что бы уменьшить запросы на сервер
+5.  Овтоматическое обновление страницы во время верстки
+
+            I
+npm install --global gulp-cli
+npm init
+npm install --save-dev gulp
+gulp --version
+
+"""CLI version: 2.3.0
+Local version: 4.0.2"""
+
+"Create a gulpfile
+Using your text editor, create a file named gulpfile.js in your project root with these contents:"
+
+function defaultTask(cb) {
+  // place code for your default task here
+  cb();
+}
+
+exports.default = defaultTask
+            I
+
+            II
+Добавляем плагин gulp-sass:
+
+const gulp = require('gulp');
+const sass = require('gulp-sass')(require('sass'));
+
+gulp.task('sass', function(){
+  return gulp.src('app/scss/style.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('app/css'))
+});
+
+Далее меняем .pipe(sass().on('error', sass.logError)) на     
+.pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError)) 
+и конд становится минифицированным
+            II
+
+            III
+Устанавливаем плагин gulp-rename
+npm i gulp-rename --save-dev
+
+Прописываем константу
+const rename = require('gulp-rename')
+добавляем запись :
+    .pipe(rename({suffix: '.min'}))
+            III
+
+            IV
+Устанавливаем плагин gulp-watch (установлен по умолчанию)
+gulp.task('watch', function(){
+  gulp.watch('app/scss/style.scss', gulp.paralell('sass'));
+});
+
+прописываем в консоли gulp-watch
+            IV
+
+             V
+
+Устанавливаем плагин browsersync
+npm install browser-sync --save-dev
+Прописываем:
+Константу: const browserSync = require('browser-sync');
+Таск:
+gulp.task('browser-sync', function() {
+  browserSync.init({
+      server: {
+          baseDir: "app/"
+      }
+  });
+});
+и подрубаем пайпы:
+.pipe(browserSync.reload({stream: true}))   (Для CSS)
+
+И добавляем таски :
+gulp.task('html', function(){
+  return gulp.src('app/*.html')
+    .pipe(browserSync.reload({stream: true}))
+});
+
+gulp.task('js', function(){
+  return gulp.src('app/JS/*.js')
+    .pipe(browserSync.reload({stream: true}))
+});
+
+            VI
+Добавляем всё это добро в вотчинг:
+gulp.task('watch', function(){
+  gulp.watch('app/scss/style.scss', gulp.parallel('sass'));
+  gulp.watch('app/*.html', gulp.parallel('html'));
+  gulp.watch('app/JS/*.js', gulp.parallel('js'));
+});
+            VI
+
+            VII
+Вотч и браузер нужно запускать в двух разных консолях как два разных процесса, это не очень удобно,
+упростим эту задачу и пропишем новый таск
+
+gulp.task('default', gulp.parallel('sass', 'watch', 'browser-sync'))
+далее в консоли пишем просто gulp и запускаем все перечисленные процессы
+            VII
+
+            VIII
+Автопрефиксер
+npm i gulp-autoprefixer --save-dev
+
+const autoprefixer = require('gulp-autoprefixer');
+
+    .pipe(autoprefixer({
+      overrideBrowserslist: ['last 8 versions']
+    }))
+            VIII
+
+            IX
+Слик слайдер - npm install slick-carousel --save-dev
+Нормалайз - npm install normalize.css --save-dev
+Магнифик попап - npm -i magnific-popup --save-dev (https://dimsemenov.com/plugins/magnific-popup/)
+Установить три пакета одной коммандой - npm i slick-carousel normalize.css magnific-popup --save-dev
+
+            IX
+
+             X
+Галп-конкат плагин для объединения файлов
+Галп-углифи плагин минифицирует JS
+npm i gulp-concat gulp-uglify --save-dev
+
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
+
+// Plagins CSS min & concat
+gulp.task('style', function(){
+  return gulp.src([
+    'node_modules/normalize.css/normalize.css',
+    'node_modules/slick-carousel/slick/slick.css',
+    'node_modules/magnific-popup/dist/magnific-popup.css'
+  ])
+      .pipe(concat('libs.min.css'))
+      .pipe(cssmin())
+      .pipe(gulp.dest('app/css'))
+});
+
+// Plagins js min & concat
+gulp.task('script', function(){
+  return gulp.src([
+    'node_modules/slick-carousel/slick/slick.js',
+    'node_modules/magnific-popup/dist/jquery.magnific-popup.js'
+  ])
+      .pipe(concat('libs.min.js'))
+      .pipe(uglify())
+      .pipe(gulp.dest('app/js'))
+});
+
+
+gulp.task('default', gulp.parallel('style', 'script', 'sass', 'watch', 'browser-sync'))
+
+             X
+
+Распаковать сборку - заходим в папку пишем : 
+
+npm i
+
+И ВСЁ!!!
