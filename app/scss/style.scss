@@ -349,10 +349,128 @@
 // end tutorial
 
 
+// start why
+
+.why{
+    min-height: 590px;
+    background-color: $bg;
+    &__inner{
+        padding: 123px 0px 117px;
+        color: #fff;
+        text-align: center;
+        &-title{
+            margin-bottom: 80px;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 48px;
+        }
+    }
+
+}
+.column__inner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 70px;
+}
+.column__inner-1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.column__inner-item1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    height: 116px;
+    width: 115px;
+    margin-bottom: 34px;
+    
+}
+.column__inner-item2{
+    font-size: 24px;
+    line-height: 36px;
+    margin-bottom: 20px;
+    
+}
+.column__inner-item2.column-text-green{
+    color: $green;
+}
+
+.column__inner-item3{
+    color: #b0bec5;
+    max-width: 320px;
+    line-height: 24px;
+}
+
+.column-bg-green{
+    background-color: $green;
+}
 
 
 
-// end tutorial
+// end why
+
+// start over 
+
+.over-bg{
+    position:relative;
+    background-image: url(../images/over-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 745px;
+}
+.over__inner{
+    min-height: 745px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.over__box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 220px;
+    width: 655px;
+    margin: auto;
+    padding: 15px 15px 15px 15px;
+    background-color: $green;
+    gap: 50px;
+}
+.over__box-text{
+    color: #fff;
+    font-family: 'Roboto' ,sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 36px;
+}
+.over__button{
+    // padding: 20px;
+    padding: 25px 45px;
+    // width: 225px;
+    // height: 65px;
+    text-align: center;
+    font-size: 12px;
+    background-color: #fff;
+    
+}
+
+.over__box-text span{
+    font-weight: 900;
+}
+.over__button a{
+    color: #263238;
+    font-family: 'Roboto' ,sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+// end over 
+
 
 // start footer
 
